@@ -148,9 +148,8 @@ namespace gr {
 
       d_socket10.bind(raw_endpoint_t(&sockaddr, sizeof(sockaddr)));
 /* End 10G management connection */
-      
-/* This currently does not work for unknown reason. Transmitted packet does NOT match buffer contents expected. But the streambuf seems to work.      */
 
+      /* Just for testing */
       std::vector<boost::asio::const_buffer> transmitbuffer2;        
       transmitbuffer2.clear();
       transmitbuffer2.push_back(boost::asio::buffer((const void *)dstMAC, sizeof(dstMAC)));
@@ -158,7 +157,7 @@ namespace gr {
       transmitbuffer2.push_back(boost::asio::buffer((const void *)custom_type, sizeof(custom_type)));
       d_socket10.send(transmitbuffer2);
 
-/* for testing */
+
     boost::asio::streambuf buffer;
     std::ostream stream( &buffer );    
     unsigned char const deadbeef[5] = { 0x00, 0xde, 0xad, 0xbe, 0xef };
