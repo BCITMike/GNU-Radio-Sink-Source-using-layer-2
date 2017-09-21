@@ -1,0 +1,116 @@
+<?xml version="1.0"?>
+<block>
+  <name>UDP Sink (grsbt)</name>
+  <key>grsbt_udp_sink</key>
+  <category>[C2E]</category>
+  <import>import grsbt</import>
+  <make>grsbt.udp_sink($type.size, $vlen, $addr, $port, $header, $psize, $eof, $send_iface, $destMac)</make>
+	<param>
+		<name>Input Type</name>
+		<key>type</key>
+		<type>enum</type>
+		<option>
+			<name>Complex</name>
+			<key>complex</key>
+			<opt>size:gr.sizeof_gr_complex</opt>
+		</option>
+		<option>
+			<name>Float</name>
+			<key>float</key>
+			<opt>size:gr.sizeof_float</opt>
+		</option>
+		<option>
+			<name>Int</name>
+			<key>int</key>
+			<opt>size:gr.sizeof_int</opt>
+		</option>
+		<option>
+			<name>Short</name>
+			<key>short</key>
+			<opt>size:gr.sizeof_short</opt>
+		</option>
+		<option>
+			<name>Byte</name>
+			<key>byte</key>
+			<opt>size:gr.sizeof_char</opt>
+		</option>
+	</param>
+
+	<param>
+		<name>MGMT 1Gbe IP</name>
+		<key>addr</key>
+		<value>127.0.0.1</value>
+		<type>string</type>
+	</param>
+
+	<param>
+		<name>MGMT Listening Port</name>
+		<key>port</key>
+		<value>55555</value>
+		<type>int</type>
+	</param>
+
+  <param>
+		<name>Payload Size</name>
+		<key>psize</key>
+		<value>1472</value>
+		<type>int</type>
+	</param>
+  
+	<param>
+		<name>Send Null Pkt as EOF</name>
+		<key>eof</key>
+		<value>True</value>
+		<type>bool</type>
+	</param>  
+
+  <param>
+		<name>TX 10G NIC Interface</name>
+		<key>send_iface</key>
+		<value>eth0</value>
+		<type>string</type>
+	</param>
+  
+  <param>
+		<name>RX 10G NIC MAC</name>
+		<key>destMac</key>
+		<value>FF:FF:FF:FF:FF:FF</value>
+		<type>string</type>
+	</param>
+
+  <param>
+		<name>Header/CRC</name>
+		<key>header</key>
+		<type>enum</type>
+		<option>
+			<name>None</name>
+			<key>0</key>
+		</option>
+		<option>
+			<name>32-bit Sequence Number</name>
+			<key>1</key>
+		</option>
+		<option>
+			<name>Sequence + 32-bit data size</name>
+			<key>2</key>
+		</option>
+		<option>
+			<name>Sequence,data size, and trailing crc32 checksum</name>
+			<key>3</key>
+		</option>
+	</param>
+	<param>
+		<name>Vec Length</name>
+		<key>vlen</key>
+		<value>1</value>
+		<type>int</type>
+	</param>
+  <check>$psize &gt;= 20</check>
+	<check>$psize &lt;= 9000</check>
+	<check>$vlen &gt; 0</check>
+	<sink>
+		<name>in</name>
+		<type>$type</type>
+		<vlen>$vlen</vlen>
+	</sink>
+</block>
